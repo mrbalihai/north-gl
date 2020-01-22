@@ -1,5 +1,4 @@
 import camera = require('./camera');
+import REGL = require('regl');
 
-export = (regl) => regl({}, () => {
-    camera(regl);
-});
+export = (regl: REGL.Regl) => camera(regl);
