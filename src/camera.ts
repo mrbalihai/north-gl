@@ -3,8 +3,8 @@ import REGL = require('regl');
 const mat4 = gl.mat4;
 
 interface Props {
-    eye: gl.vec3;
-    target: gl.vec3;
+    eye: number[];
+    target: number[];
 }
 
 interface Context extends REGL.DefaultContext {
@@ -12,7 +12,7 @@ interface Context extends REGL.DefaultContext {
     projection: gl.mat4;
 }
 
-export = (regl: REGL.Regl) => regl<{}, REGL.Uniforms>({
+export = (regl: REGL.Regl, props: Props) => regl<{}, REGL.Uniforms>({
     context: {
         projection: (context: REGL.DefaultContext) =>
             mat4.perspective(mat4.create(),
@@ -21,7 +21,7 @@ export = (regl: REGL.Regl) => regl<{}, REGL.Uniforms>({
                 0.01,
                 1000.0),
 
-        view: ({}, props: Props) =>
+        view: ({}) =>
             mat4.lookAt(mat4.create(),
                 props.eye,
                 props.target,
