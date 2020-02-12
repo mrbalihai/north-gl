@@ -1,7 +1,7 @@
-import camera = require('./camera');
-import REGL = require('regl');
+import { createCamera } from './camera';
+import { Regl } from 'regl';
 
-export = (regl: REGL.Regl) => camera(regl, {
+export const createScene = (regl: Regl, {}) => createCamera(regl, {
     eye: [2, 2, 2],
     target: [0, 0, 0]
 });

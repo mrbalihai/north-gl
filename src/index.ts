@@ -1,32 +1,21 @@
-import h = require('virtual-dom/h');
-import REGL = require('regl');
-import mainLoop = require('main-loop');
-import virtualDom = require('virtual-dom');
-import parseObj = require('parse-wavefront-obj');
-import createScene = require('./scene');
+import virtualDom, { h } from 'virtual-dom';
+import REGL from 'regl';
+import mainLoop from 'main-loop';
+import parseObj from 'parse-wavefront-obj';
+import { createCamera } from './camera';
+import { Mesh } from './Mesh';
 
-interface Mesh {
-    positions: Number[],
-    cells: Number[],
-    faceUVs: Number[],
-    vertexUVs: Number[],
-    vertexNormals: Number[],
-    faceNormals: Number[],
-    name: string
-}
-
-const cubes: Array<Mesh> = new Array<Mesh>();
+const meshes: Array<Mesh> = new Array<Mesh>();
 
 const addCube = async () => {
     const response = await fetch('/assets/cube.obj');
-    const cube = parseObj(await response.text());
-    cubes.push(cube);
+    const mesh = parseObj(await response.text());
+    console.log(mesh);
+    meshes.push(mesh);
 };
 
 const loop = mainLoop({ }, render, virtualDom);
-document.body.appendChild(loop.target);
-
-function render() {
+document.body.appendChild(loop.target); function render() {
     return h('div', [
         h('button', { onclick: addCube }, 'Click'),
         h('canvas', { id: 'main-canvas', style: { display: 'block' }}, ''),
@@ -34,10 +23,10 @@ function render() {
 };
 
 const regl = REGL({ canvas: document.querySelector('#main-canvas') as HTMLCanvasElement });
-const scene = createScene(regl);
 regl.frame(() => {
     regl.clear({ color: [0, 0, 0, 1] });
-    scene({ }, () => {
-        // todo: draw array of cube meshes
+    createCamera(regl, {
+        eye: [2, 2, 2],
+        target: [0, 0, 0]
     });
 });
