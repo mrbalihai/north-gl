@@ -1,2 +1,7 @@
 # North GL (WIP)
-This is intended to be an application to serve as an abstraction to regl to load arbitrary OBJ models and render them in a 3D scene using webgl.
+
+This is an experiment using [Regl](regl.party) to build a basic model loader using Typescript.
+
+Current goals are to get an arbitrary OBJ model loaded in and rendered on the scene.
+
+Currently a work in progress.
