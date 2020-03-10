@@ -12,7 +12,7 @@ const camera = createCamera(regl, {
 });
 
 async function addCube () {
-    const response = await fetch('/assets/cube.obj');
+    const response = await fetch('assets/cube.obj');
     const mesh = parseObj(await response.text());
     drawObjects.push(createMesh(regl, mesh));
 };
