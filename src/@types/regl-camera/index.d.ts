@@ -1,8 +1,9 @@
 declare module 'regl-camera' {
+    import { vec3 } from 'gl-matrix';
     import { Regl, DefaultContext, DrawCommand } from 'regl';
 
     interface CameraProps {
-        center: [number, number, number];
+        center: vec3;
     }
 
     interface CameraContext extends DefaultContext {

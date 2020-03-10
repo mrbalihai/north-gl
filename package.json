@@ -4,8 +4,8 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "start": "budo src/index.ts --live -- --debug -p tsify",
-    "build": "tsc",
+    "start": "",
+    "build": "webpack",
     "check": "tsc --noEmit --watch"
   },
   "keywords": [],
@@ -23,12 +23,16 @@
   },
   "devDependencies": {
     "@types/gl-matrix": "^2.4.5",
+    "@types/node": "^13.7.7",
     "@types/virtual-dom": "^2.1.0",
-    "browserify": "^14.5.0",
-    "budo": "^11.6.3",
+    "copy-webpack-plugin": "^5.1.1",
     "gl-matrix": "^3.1.0",
-    "glslify": "^6.4.1",
-    "tsify": "^3.0.4",
-    "typescript": "^2.9.2"
+    "glslify": "^7.0.0",
+    "glslify-loader": "^2.0.0",
+    "raw-loader": "^4.0.0",
+    "ts-loader": "^6.2.1",
+    "typescript": "^2.9.2",
+    "webpack": "^4.42.0",
+    "webpack-cli": "^3.3.11"
   }
 }

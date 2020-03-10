@@ -4,11 +4,11 @@ export type Vec4 = [number, number, number, number];
 import { vec4, vec3 } from 'gl-matrix';
 
 export interface Mesh {
-    positions: Array<vec3>,
-    cells: Array<vec4>,
-    faceUVs: Array<vec4>,
-    vertexUVs: Array<vec3>,
-    vertexNormals: Array<vec3>,
-    faceNormals: Array<vec4>,
+    positions: vec3[],
+    cells: vec3[],
+    faceUVs: vec4[],
+    vertexUVs: vec3[],
+    vertexNormals: vec3[],
+    faceNormals: vec4[],
     name: string
 }

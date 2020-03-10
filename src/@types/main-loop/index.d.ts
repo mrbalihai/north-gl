@@ -2,8 +2,6 @@ declare module 'main-loop' {
 
     import VirtualDOM = require('virtual-dom');
 
-    function update(state: any): void;
-
     type MainLoop = {
         target: HTMLElement;
     }
