@@ -1,13 +1,14 @@
 precision mediump float;
 
-#pragma glslify: calcDirectionalLight = require(../../glsl/calc-directional-light)
-#pragma glslify: DirectionalLight = require(../../glsl/DirectionalLight)
-#pragma glslify: Material = require(../../glsl/Material)
+#include "../../glsl/DirectionalLight.glsl"
+#include "../../glsl/Material.glsl"
+#include "../../glsl/calc-directional-light.glsl"
 
 varying vec3 fragNormal, fragPosition;
 uniform vec3 eye;
 uniform DirectionalLight directionalLight;
 uniform Material material;
+
 
 void main() {
     vec3 norm = normalize(fragNormal);

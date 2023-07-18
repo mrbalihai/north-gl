@@ -8,7 +8,7 @@ const drawObjects: Array<DrawCommand> = new Array<DrawCommand>();
 
 const regl = REGL();
 const camera = createCamera(regl, {
-    center: vec3.fromValues(0, 2.5, 0)
+    center: vec3.fromValues(0, 0, 0)
 });
 
 async function addCube () {

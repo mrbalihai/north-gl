@@ -2,8 +2,8 @@ import { Regl, DefaultContext } from 'regl';
 import { Mesh } from '../../Mesh';
 import { mat4, vec4, vec3 } from 'gl-matrix';
 import normals from 'angle-normals';
-const vert = require('./item.vert.glsl');
-const frag = require('./item.frag.glsl');
+import vert from './item.vert.glsl';
+import frag from './item.frag.glsl';
 
 interface Uniforms {
     model: mat4;
@@ -29,11 +29,11 @@ type Context = Uniforms & DefaultContext;
 
 export const createMesh = (regl: Regl, mesh: Mesh) =>
     regl<Uniforms, Attributes>({
-        vert: vert.default,
-        frag: frag.default,
+        vert,
+        frag,
         attributes: {
             position: mesh.positions,
-            normal: normals(mesh.cells, mesh.positions)
+            normal: normals(mesh.cells, mesh.positions),
         },
         elements: mesh.cells,
         uniforms: {
@@ -48,6 +48,6 @@ export const createMesh = (regl: Regl, mesh: Mesh) =>
             model: mat4.identity(mat4.create()),
             eye: regl.context<Context, 'eye'>('eye'),
             view: regl.context<Context, 'view'>('view'),
-            projection: regl.context<Context, 'projection'>('projection')
+            projection: regl.context<Context, 'projection'>('projection'),
         },
     });

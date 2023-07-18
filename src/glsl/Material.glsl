@@ -4,4 +4,3 @@ struct Material {
     vec3 specular;
     vec3 diffuse;
 };
-#pragma glslify: export(Material)
