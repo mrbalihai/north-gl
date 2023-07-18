@@ -4,4 +4,3 @@ struct DirectionalLight {
     vec3 diffuse;
     vec3 specular;
 };
-#pragma glslify: export(DirectionalLight)
