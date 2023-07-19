@@ -13,6 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "angle-normals": "^1.0.0",
+    "lil-gui": "^0.18.2",
     "main-loop": "^3.4.0",
     "parse-wavefront-obj": "^1.0.3",
     "regl": "^2.1.0",
