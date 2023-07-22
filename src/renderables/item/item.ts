@@ -1,6 +1,6 @@
 import { Regl, DefaultContext } from 'regl';
 import { Mesh } from '../../Mesh';
-import { mat4, vec4, vec3 } from 'gl-matrix';
+import { mat4, vec3 } from 'gl-matrix';
 import normals from 'angle-normals';
 import vert from './item.vert.glsl';
 import frag from './item.frag.glsl';
@@ -15,7 +15,7 @@ interface Uniforms {
   'directionalLight.ambient': vec3;
   'directionalLight.diffuse': vec3;
   'directionalLight.specular': vec3;
-  'material.color': vec4;
+  'material.color': vec3;
   'material.diffuse': vec3;
   'material.specular': vec3;
   'material.shininess': number;
@@ -24,6 +24,17 @@ interface Uniforms {
 interface Attributes {
   position: vec3[];
   normal: vec3[];
+}
+
+interface Props {
+  skyColour: vec3
+  colour: vec3;
+  diffuse: vec3;
+  specular: vec3;
+  shininess: number;
+  lightAmbient: vec3;
+  lightDiffuse: vec3;
+  lightSpecular: vec3;
 }
 
 type Context = Uniforms & DefaultContext;
@@ -40,13 +51,13 @@ export const createMesh = ({ regl, mesh }: Args) =>
     elements: mesh.cells,
     uniforms: {
       'directionalLight.direction': vec3.fromValues(-0.2, -1, -0.3),
-      'directionalLight.ambient': vec3.fromValues(0.4, 0.4, 0.4),
-      'directionalLight.diffuse': vec3.fromValues(0.4, 0.4, 0.4),
-      'directionalLight.specular': vec3.fromValues(0.1, 0.1, 0.1),
-      'material.color': vec4.fromValues(1, 1, 1, 1),
-      'material.diffuse': vec3.fromValues(0.4, 0.4, 0.4),
-      'material.specular': vec3.fromValues(0.1, 0.1, 0.1),
-      'material.shininess': 30,
+      'directionalLight.ambient': regl.prop<Props, 'lightAmbient'>('lightAmbient'),
+      'directionalLight.diffuse': regl.prop<Props, 'lightDiffuse'>('lightDiffuse'),
+      'directionalLight.specular': regl.prop<Props, 'lightSpecular'>('lightSpecular'),
+      'material.color': regl.prop<Props, 'colour'>('colour'),
+      'material.diffuse': regl.prop<Props, 'diffuse'>('diffuse'),
+      'material.specular': regl.prop<Props, 'specular'>('specular'),
+      'material.shininess': regl.prop<Props, 'shininess'>('shininess'),
       model: mat4.identity(mat4.create()),
       eye: regl.context<Context, 'eye'>('eye'),
       view: regl.context<Context, 'view'>('view'),

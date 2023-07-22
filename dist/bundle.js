@@ -47,11 +47,11 @@
           return base;
         };
         var endl = "\n";
-        function decodeB64(str4) {
+        function decodeB64(str3) {
           if (typeof atob !== "undefined") {
-            return atob(str4);
+            return atob(str3);
           }
-          return "base64:" + str4;
+          return "base64:" + str3;
         }
         function raise(message) {
           var error = new Error("(regl) " + message);
@@ -134,12 +134,12 @@
             }
           });
         }
-        function leftPad(str4, n) {
-          str4 = str4 + "";
-          while (str4.length < n) {
-            str4 = " " + str4;
+        function leftPad(str3, n) {
+          str3 = str3 + "";
+          while (str3.length < n) {
+            str3 = " " + str3;
           }
-          return str4;
+          return str3;
         }
         function ShaderFile() {
           this.name = "unknown";
@@ -277,8 +277,8 @@
               }
               var strings = [""];
               var styles = [""];
-              function push(str4, style) {
-                strings.push(str4);
+              function push(str3, style) {
+                strings.push(str3);
                 styles.push(style || "");
               }
               push("file number " + fileNumber + ": " + file.name + "\n", "color:red;text-decoration:underline;font-weight:bold");
@@ -346,16 +346,16 @@
         }
         function saveDrawCommandInfo(opts, uniforms, attributes, stringStore) {
           saveCommandRef(opts);
-          function id(str4) {
-            if (str4) {
-              return stringStore.id(str4);
+          function id(str3) {
+            if (str3) {
+              return stringStore.id(str3);
             }
             return 0;
           }
           opts._fragId = id(opts.static.frag);
           opts._vertId = id(opts.static.vert);
-          function addProps(dict, set4) {
-            Object.keys(set4).forEach(function(u) {
+          function addProps(dict, set3) {
+            Object.keys(set3).forEach(function(u) {
               dict[stringStore.id(u)] = true;
             });
           }
@@ -617,25 +617,25 @@
           this.type = type;
           this.data = data;
         }
-        function escapeStr(str4) {
-          return str4.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+        function escapeStr(str3) {
+          return str3.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
         }
-        function splitParts(str4) {
-          if (str4.length === 0) {
+        function splitParts(str3) {
+          if (str3.length === 0) {
             return [];
           }
-          var firstChar = str4.charAt(0);
-          var lastChar = str4.charAt(str4.length - 1);
-          if (str4.length > 1 && firstChar === lastChar && (firstChar === '"' || firstChar === "'")) {
-            return ['"' + escapeStr(str4.substr(1, str4.length - 2)) + '"'];
+          var firstChar = str3.charAt(0);
+          var lastChar = str3.charAt(str3.length - 1);
+          if (str3.length > 1 && firstChar === lastChar && (firstChar === '"' || firstChar === "'")) {
+            return ['"' + escapeStr(str3.substr(1, str3.length - 2)) + '"'];
           }
-          var parts = /\[(false|true|null|\d+|'[^']*'|"[^"]*")\]/.exec(str4);
+          var parts = /\[(false|true|null|\d+|'[^']*'|"[^"]*")\]/.exec(str3);
           if (parts) {
-            return splitParts(str4.substr(0, parts.index)).concat(splitParts(parts[1])).concat(splitParts(str4.substr(parts.index + parts[0].length)));
+            return splitParts(str3.substr(0, parts.index)).concat(splitParts(parts[1])).concat(splitParts(str3.substr(parts.index + parts[0].length)));
           }
-          var subparts = str4.split(".");
+          var subparts = str3.split(".");
           if (subparts.length === 1) {
-            return ['"' + escapeStr(str4) + '"'];
+            return ['"' + escapeStr(str3) + '"'];
           }
           var result = [];
           for (var i = 0; i < subparts.length; ++i) {
@@ -643,8 +643,8 @@
           }
           return result;
         }
-        function toAccessorString(str4) {
-          return "[" + splitParts(str4).join("][") + "]";
+        function toAccessorString(str3) {
+          return "[" + splitParts(str3).join("][") + "]";
         }
         function defineDynamic(type, data) {
           return new DynamicVariable(type, toAccessorString(data + ""));
@@ -692,13 +692,13 @@
           var stringIds = { "": 0 };
           var stringValues = [""];
           return {
-            id: function(str4) {
-              var result = stringIds[str4];
+            id: function(str3) {
+              var result = stringIds[str3];
               if (result) {
                 return result;
               }
-              result = stringIds[str4] = stringValues.length;
-              stringValues.push(str4);
+              result = stringIds[str3] = stringValues.length;
+              stringValues.push(str3);
               return result;
             },
             str: function(id) {
@@ -2026,8 +2026,8 @@
         FORMAT_CHANNELS[GL_DEPTH_STENCIL] = FORMAT_CHANNELS[GL_LUMINANCE_ALPHA] = 2;
         FORMAT_CHANNELS[GL_RGB] = FORMAT_CHANNELS[GL_SRGB_EXT] = 3;
         FORMAT_CHANNELS[GL_RGBA$1] = FORMAT_CHANNELS[GL_SRGB_ALPHA_EXT] = 4;
-        function objectName(str4) {
-          return "[object " + str4 + "]";
+        function objectName(str3) {
+          return "[object " + str3 + "]";
         }
         var CANVAS_CLASS = objectName("HTMLCanvasElement");
         var OFFSCREENCANVAS_CLASS = objectName("OffscreenCanvas");
@@ -6065,8 +6065,8 @@
               } else if (name in dynamicOptions) {
                 var dyn = dynamicOptions[name];
                 return createDynamicDecl(dyn, function(env2, scope) {
-                  var str4 = env2.invoke(scope, dyn);
-                  var id2 = scope.def(env2.shared.strings, ".id(", str4, ")");
+                  var str3 = env2.invoke(scope, dyn);
+                  var id2 = scope.def(env2.shared.strings, ".id(", str3, ")");
                   check$1.optional(function() {
                     scope(
                       env2.shared.shader,
@@ -9844,11 +9844,11 @@
   // node_modules/parse-wavefront-obj/index.js
   var require_parse_wavefront_obj = __commonJS({
     "node_modules/parse-wavefront-obj/index.js"(exports, module) {
-      function parse(str4) {
+      function parse(str3) {
         if (typeof buf !== "string") {
-          str4 = str4.toString();
+          str3 = str3.toString();
         }
-        var lines = str4.trim().split("\n");
+        var lines = str3.trim().split("\n");
         var positions = [];
         var cells = [];
         var vertexUVs = [];
@@ -10179,13 +10179,13 @@
   // node_modules/parse-unit/index.js
   var require_parse_unit = __commonJS({
     "node_modules/parse-unit/index.js"(exports, module) {
-      module.exports = function parseUnit(str4, out) {
+      module.exports = function parseUnit(str3, out) {
         if (!out)
           out = [0, ""];
-        str4 = String(str4);
-        var num = parseFloat(str4, 10);
+        str3 = String(str3);
+        var num = parseFloat(str3, 10);
         out[0] = num;
-        out[1] = str4.match(/[\d.\-\+]*\s*(.*)/)[1] || "";
+        out[1] = str3.match(/[\d.\-\+]*\s*(.*)/)[1] || "";
         return out;
       };
     }
@@ -10210,20 +10210,20 @@
         element.removeChild(testDIV);
         return size;
       }
-      function toPX(str4, element) {
-        if (!str4)
+      function toPX(str3, element) {
+        if (!str3)
           return null;
         element = element || document.body;
-        str4 = (str4 + "" || "px").trim().toLowerCase();
+        str3 = (str3 + "" || "px").trim().toLowerCase();
         if (element === window || element === document) {
           element = document.body;
         }
-        switch (str4) {
+        switch (str3) {
           case "%":
             return element.clientHeight / 100;
           case "ch":
           case "ex":
-            return getSizeBrutal(str4, element);
+            return getSizeBrutal(str3, element);
           case "em":
             return getPropertyInPX(element, "font-size");
           case "rem":
@@ -10249,7 +10249,7 @@
           case "px":
             return 1;
         }
-        var parts = parseUnit(str4);
+        var parts = parseUnit(str3);
         if (!isNaN(parts[0]) && parts[1]) {
           var px = toPX(parts[1], element);
           return typeof px === "number" ? parts[0] * px : null;
@@ -10280,18 +10280,18 @@
           var dy = ev.deltaY || 0;
           var dz = ev.deltaZ || 0;
           var mode = ev.deltaMode;
-          var scale4 = 1;
+          var scale3 = 1;
           switch (mode) {
             case 1:
-              scale4 = lineHeight;
+              scale3 = lineHeight;
               break;
             case 2:
-              scale4 = window.innerHeight;
+              scale3 = window.innerHeight;
               break;
           }
-          dx *= scale4;
-          dy *= scale4;
-          dz *= scale4;
+          dx *= scale3;
+          dy *= scale3;
+          dz *= scale3;
           if (dx || dy || dz) {
             return callback(dx, dy, dz, ev);
           }
@@ -10361,44 +10361,44 @@
       var identity2 = require_identity();
       module.exports = lookAt2;
       function lookAt2(out, eye, center, up) {
-        var x0, x1, x2, y0, y1, y2, z0, z1, z2, len3, eyex = eye[0], eyey = eye[1], eyez = eye[2], upx = up[0], upy = up[1], upz = up[2], centerx = center[0], centery = center[1], centerz = center[2];
+        var x0, x1, x2, y0, y1, y2, z0, z1, z2, len2, eyex = eye[0], eyey = eye[1], eyez = eye[2], upx = up[0], upy = up[1], upz = up[2], centerx = center[0], centery = center[1], centerz = center[2];
         if (Math.abs(eyex - centerx) < 1e-6 && Math.abs(eyey - centery) < 1e-6 && Math.abs(eyez - centerz) < 1e-6) {
           return identity2(out);
         }
         z0 = eyex - centerx;
         z1 = eyey - centery;
         z2 = eyez - centerz;
-        len3 = 1 / Math.sqrt(z0 * z0 + z1 * z1 + z2 * z2);
-        z0 *= len3;
-        z1 *= len3;
-        z2 *= len3;
+        len2 = 1 / Math.sqrt(z0 * z0 + z1 * z1 + z2 * z2);
+        z0 *= len2;
+        z1 *= len2;
+        z2 *= len2;
         x0 = upy * z2 - upz * z1;
         x1 = upz * z0 - upx * z2;
         x2 = upx * z1 - upy * z0;
-        len3 = Math.sqrt(x0 * x0 + x1 * x1 + x2 * x2);
-        if (!len3) {
+        len2 = Math.sqrt(x0 * x0 + x1 * x1 + x2 * x2);
+        if (!len2) {
           x0 = 0;
           x1 = 0;
           x2 = 0;
         } else {
-          len3 = 1 / len3;
-          x0 *= len3;
-          x1 *= len3;
-          x2 *= len3;
+          len2 = 1 / len2;
+          x0 *= len2;
+          x1 *= len2;
+          x2 *= len2;
         }
         y0 = z1 * x2 - z2 * x1;
         y1 = z2 * x0 - z0 * x2;
         y2 = z0 * x1 - z1 * x0;
-        len3 = Math.sqrt(y0 * y0 + y1 * y1 + y2 * y2);
-        if (!len3) {
+        len2 = Math.sqrt(y0 * y0 + y1 * y1 + y2 * y2);
+        if (!len2) {
           y0 = 0;
           y1 = 0;
           y2 = 0;
         } else {
-          len3 = 1 / len3;
-          y0 *= len3;
-          y1 *= len3;
-          y2 *= len3;
+          len2 = 1 / len2;
+          y0 *= len2;
+          y1 *= len2;
+          y2 *= len2;
         }
         out[0] = x0;
         out[1] = y0;
@@ -11073,7 +11073,7 @@
   }
   function rotate(out, a, rad, axis) {
     var x = axis[0], y = axis[1], z = axis[2];
-    var len3 = Math.hypot(x, y, z);
+    var len2 = Math.hypot(x, y, z);
     var s, c, t;
     var a00, a01, a02, a03;
     var a10, a11, a12, a13;
@@ -11081,13 +11081,13 @@
     var b00, b01, b02;
     var b10, b11, b12;
     var b20, b21, b22;
-    if (len3 < EPSILON) {
+    if (len2 < EPSILON) {
       return null;
     }
-    len3 = 1 / len3;
-    x *= len3;
-    y *= len3;
-    z *= len3;
+    len2 = 1 / len2;
+    x *= len2;
+    y *= len2;
+    z *= len2;
     s = Math.sin(rad);
     c = Math.cos(rad);
     t = 1 - c;
@@ -11265,15 +11265,15 @@
   }
   function fromRotation(out, rad, axis) {
     var x = axis[0], y = axis[1], z = axis[2];
-    var len3 = Math.hypot(x, y, z);
+    var len2 = Math.hypot(x, y, z);
     var s, c, t;
-    if (len3 < EPSILON) {
+    if (len2 < EPSILON) {
       return null;
     }
-    len3 = 1 / len3;
-    x *= len3;
-    y *= len3;
-    z *= len3;
+    len2 = 1 / len2;
+    x *= len2;
+    y *= len2;
+    z *= len2;
     s = Math.sin(rad);
     c = Math.cos(rad);
     t = 1 - c;
@@ -11731,7 +11731,7 @@
     return out;
   }
   function lookAt(out, eye, center, up) {
-    var x0, x1, x2, y0, y1, y2, z0, z1, z2, len3;
+    var x0, x1, x2, y0, y1, y2, z0, z1, z2, len2;
     var eyex = eye[0];
     var eyey = eye[1];
     var eyez = eye[2];
@@ -11747,37 +11747,37 @@
     z0 = eyex - centerx;
     z1 = eyey - centery;
     z2 = eyez - centerz;
-    len3 = 1 / Math.hypot(z0, z1, z2);
-    z0 *= len3;
-    z1 *= len3;
-    z2 *= len3;
+    len2 = 1 / Math.hypot(z0, z1, z2);
+    z0 *= len2;
+    z1 *= len2;
+    z2 *= len2;
     x0 = upy * z2 - upz * z1;
     x1 = upz * z0 - upx * z2;
     x2 = upx * z1 - upy * z0;
-    len3 = Math.hypot(x0, x1, x2);
-    if (!len3) {
+    len2 = Math.hypot(x0, x1, x2);
+    if (!len2) {
       x0 = 0;
       x1 = 0;
       x2 = 0;
     } else {
-      len3 = 1 / len3;
-      x0 *= len3;
-      x1 *= len3;
-      x2 *= len3;
+      len2 = 1 / len2;
+      x0 *= len2;
+      x1 *= len2;
+      x2 *= len2;
     }
     y0 = z1 * x2 - z2 * x1;
     y1 = z2 * x0 - z0 * x2;
     y2 = z0 * x1 - z1 * x0;
-    len3 = Math.hypot(y0, y1, y2);
-    if (!len3) {
+    len2 = Math.hypot(y0, y1, y2);
+    if (!len2) {
       y0 = 0;
       y1 = 0;
       y2 = 0;
     } else {
-      len3 = 1 / len3;
-      y0 *= len3;
-      y1 *= len3;
-      y2 *= len3;
+      len2 = 1 / len2;
+      y0 *= len2;
+      y1 *= len2;
+      y2 *= len2;
     }
     out[0] = x0;
     out[1] = y0;
@@ -11800,20 +11800,20 @@
   function targetTo(out, eye, target, up) {
     var eyex = eye[0], eyey = eye[1], eyez = eye[2], upx = up[0], upy = up[1], upz = up[2];
     var z0 = eyex - target[0], z1 = eyey - target[1], z2 = eyez - target[2];
-    var len3 = z0 * z0 + z1 * z1 + z2 * z2;
-    if (len3 > 0) {
-      len3 = 1 / Math.sqrt(len3);
-      z0 *= len3;
-      z1 *= len3;
-      z2 *= len3;
+    var len2 = z0 * z0 + z1 * z1 + z2 * z2;
+    if (len2 > 0) {
+      len2 = 1 / Math.sqrt(len2);
+      z0 *= len2;
+      z1 *= len2;
+      z2 *= len2;
     }
     var x0 = upy * z2 - upz * z1, x1 = upz * z0 - upx * z2, x2 = upx * z1 - upy * z0;
-    len3 = x0 * x0 + x1 * x1 + x2 * x2;
-    if (len3 > 0) {
-      len3 = 1 / Math.sqrt(len3);
-      x0 *= len3;
-      x1 *= len3;
-      x2 *= len3;
+    len2 = x0 * x0 + x1 * x1 + x2 * x2;
+    if (len2 > 0) {
+      len2 = 1 / Math.sqrt(len2);
+      x0 *= len2;
+      x1 *= len2;
+      x2 *= len2;
     }
     out[0] = x0;
     out[1] = x1;
@@ -11896,23 +11896,23 @@
     out[15] = a[15] * b;
     return out;
   }
-  function multiplyScalarAndAdd(out, a, b, scale4) {
-    out[0] = a[0] + b[0] * scale4;
-    out[1] = a[1] + b[1] * scale4;
-    out[2] = a[2] + b[2] * scale4;
-    out[3] = a[3] + b[3] * scale4;
-    out[4] = a[4] + b[4] * scale4;
-    out[5] = a[5] + b[5] * scale4;
-    out[6] = a[6] + b[6] * scale4;
-    out[7] = a[7] + b[7] * scale4;
-    out[8] = a[8] + b[8] * scale4;
-    out[9] = a[9] + b[9] * scale4;
-    out[10] = a[10] + b[10] * scale4;
-    out[11] = a[11] + b[11] * scale4;
-    out[12] = a[12] + b[12] * scale4;
-    out[13] = a[13] + b[13] * scale4;
-    out[14] = a[14] + b[14] * scale4;
-    out[15] = a[15] + b[15] * scale4;
+  function multiplyScalarAndAdd(out, a, b, scale3) {
+    out[0] = a[0] + b[0] * scale3;
+    out[1] = a[1] + b[1] * scale3;
+    out[2] = a[2] + b[2] * scale3;
+    out[3] = a[3] + b[3] * scale3;
+    out[4] = a[4] + b[4] * scale3;
+    out[5] = a[5] + b[5] * scale3;
+    out[6] = a[6] + b[6] * scale3;
+    out[7] = a[7] + b[7] * scale3;
+    out[8] = a[8] + b[8] * scale3;
+    out[9] = a[9] + b[9] * scale3;
+    out[10] = a[10] + b[10] * scale3;
+    out[11] = a[11] + b[11] * scale3;
+    out[12] = a[12] + b[12] * scale3;
+    out[13] = a[13] + b[13] * scale3;
+    out[14] = a[14] + b[14] * scale3;
+    out[15] = a[15] + b[15] * scale3;
     return out;
   }
   function exactEquals(a, b) {
@@ -12085,10 +12085,10 @@
     out[2] = a[2] * b;
     return out;
   }
-  function scaleAndAdd(out, a, b, scale4) {
-    out[0] = a[0] + b[0] * scale4;
-    out[1] = a[1] + b[1] * scale4;
-    out[2] = a[2] + b[2] * scale4;
+  function scaleAndAdd(out, a, b, scale3) {
+    out[0] = a[0] + b[0] * scale3;
+    out[1] = a[1] + b[1] * scale3;
+    out[2] = a[2] + b[2] * scale3;
     return out;
   }
   function distance(a, b) {
@@ -12125,13 +12125,13 @@
     var x = a[0];
     var y = a[1];
     var z = a[2];
-    var len3 = x * x + y * y + z * z;
-    if (len3 > 0) {
-      len3 = 1 / Math.sqrt(len3);
+    var len2 = x * x + y * y + z * z;
+    if (len2 > 0) {
+      len2 = 1 / Math.sqrt(len2);
     }
-    out[0] = a[0] * len3;
-    out[1] = a[1] * len3;
-    out[2] = a[2] * len3;
+    out[0] = a[0] * len2;
+    out[1] = a[1] * len2;
+    out[2] = a[2] * len2;
     return out;
   }
   function dot(a, b) {
@@ -12178,14 +12178,14 @@
     out[2] = a[2] * factor1 + b[2] * factor2 + c[2] * factor3 + d[2] * factor4;
     return out;
   }
-  function random(out, scale4) {
-    scale4 = scale4 || 1;
+  function random(out, scale3) {
+    scale3 = scale3 || 1;
     var r = RANDOM() * 2 * Math.PI;
     var z = RANDOM() * 2 - 1;
-    var zScale = Math.sqrt(1 - z * z) * scale4;
+    var zScale = Math.sqrt(1 - z * z) * scale3;
     out[0] = Math.cos(r) * zScale;
     out[1] = Math.sin(r) * zScale;
-    out[2] = z * scale4;
+    out[2] = z * scale3;
     return out;
   }
   function transformMat4(out, a, m) {
@@ -12311,348 +12311,6 @@
         a[i] = vec[0];
         a[i + 1] = vec[1];
         a[i + 2] = vec[2];
-      }
-      return a;
-    };
-  }();
-
-  // node_modules/gl-matrix/esm/vec4.js
-  var vec4_exports = {};
-  __export(vec4_exports, {
-    add: () => add3,
-    ceil: () => ceil2,
-    clone: () => clone3,
-    copy: () => copy3,
-    create: () => create3,
-    cross: () => cross2,
-    dist: () => dist2,
-    distance: () => distance2,
-    div: () => div2,
-    divide: () => divide2,
-    dot: () => dot2,
-    equals: () => equals3,
-    exactEquals: () => exactEquals3,
-    floor: () => floor2,
-    forEach: () => forEach2,
-    fromValues: () => fromValues3,
-    inverse: () => inverse2,
-    len: () => len2,
-    length: () => length2,
-    lerp: () => lerp2,
-    max: () => max2,
-    min: () => min2,
-    mul: () => mul3,
-    multiply: () => multiply3,
-    negate: () => negate2,
-    normalize: () => normalize2,
-    random: () => random2,
-    round: () => round2,
-    scale: () => scale3,
-    scaleAndAdd: () => scaleAndAdd2,
-    set: () => set3,
-    sqrDist: () => sqrDist2,
-    sqrLen: () => sqrLen2,
-    squaredDistance: () => squaredDistance2,
-    squaredLength: () => squaredLength2,
-    str: () => str3,
-    sub: () => sub3,
-    subtract: () => subtract3,
-    transformMat4: () => transformMat42,
-    transformQuat: () => transformQuat2,
-    zero: () => zero2
-  });
-  function create3() {
-    var out = new ARRAY_TYPE(4);
-    if (ARRAY_TYPE != Float32Array) {
-      out[0] = 0;
-      out[1] = 0;
-      out[2] = 0;
-      out[3] = 0;
-    }
-    return out;
-  }
-  function clone3(a) {
-    var out = new ARRAY_TYPE(4);
-    out[0] = a[0];
-    out[1] = a[1];
-    out[2] = a[2];
-    out[3] = a[3];
-    return out;
-  }
-  function fromValues3(x, y, z, w) {
-    var out = new ARRAY_TYPE(4);
-    out[0] = x;
-    out[1] = y;
-    out[2] = z;
-    out[3] = w;
-    return out;
-  }
-  function copy3(out, a) {
-    out[0] = a[0];
-    out[1] = a[1];
-    out[2] = a[2];
-    out[3] = a[3];
-    return out;
-  }
-  function set3(out, x, y, z, w) {
-    out[0] = x;
-    out[1] = y;
-    out[2] = z;
-    out[3] = w;
-    return out;
-  }
-  function add3(out, a, b) {
-    out[0] = a[0] + b[0];
-    out[1] = a[1] + b[1];
-    out[2] = a[2] + b[2];
-    out[3] = a[3] + b[3];
-    return out;
-  }
-  function subtract3(out, a, b) {
-    out[0] = a[0] - b[0];
-    out[1] = a[1] - b[1];
-    out[2] = a[2] - b[2];
-    out[3] = a[3] - b[3];
-    return out;
-  }
-  function multiply3(out, a, b) {
-    out[0] = a[0] * b[0];
-    out[1] = a[1] * b[1];
-    out[2] = a[2] * b[2];
-    out[3] = a[3] * b[3];
-    return out;
-  }
-  function divide2(out, a, b) {
-    out[0] = a[0] / b[0];
-    out[1] = a[1] / b[1];
-    out[2] = a[2] / b[2];
-    out[3] = a[3] / b[3];
-    return out;
-  }
-  function ceil2(out, a) {
-    out[0] = Math.ceil(a[0]);
-    out[1] = Math.ceil(a[1]);
-    out[2] = Math.ceil(a[2]);
-    out[3] = Math.ceil(a[3]);
-    return out;
-  }
-  function floor2(out, a) {
-    out[0] = Math.floor(a[0]);
-    out[1] = Math.floor(a[1]);
-    out[2] = Math.floor(a[2]);
-    out[3] = Math.floor(a[3]);
-    return out;
-  }
-  function min2(out, a, b) {
-    out[0] = Math.min(a[0], b[0]);
-    out[1] = Math.min(a[1], b[1]);
-    out[2] = Math.min(a[2], b[2]);
-    out[3] = Math.min(a[3], b[3]);
-    return out;
-  }
-  function max2(out, a, b) {
-    out[0] = Math.max(a[0], b[0]);
-    out[1] = Math.max(a[1], b[1]);
-    out[2] = Math.max(a[2], b[2]);
-    out[3] = Math.max(a[3], b[3]);
-    return out;
-  }
-  function round2(out, a) {
-    out[0] = Math.round(a[0]);
-    out[1] = Math.round(a[1]);
-    out[2] = Math.round(a[2]);
-    out[3] = Math.round(a[3]);
-    return out;
-  }
-  function scale3(out, a, b) {
-    out[0] = a[0] * b;
-    out[1] = a[1] * b;
-    out[2] = a[2] * b;
-    out[3] = a[3] * b;
-    return out;
-  }
-  function scaleAndAdd2(out, a, b, scale4) {
-    out[0] = a[0] + b[0] * scale4;
-    out[1] = a[1] + b[1] * scale4;
-    out[2] = a[2] + b[2] * scale4;
-    out[3] = a[3] + b[3] * scale4;
-    return out;
-  }
-  function distance2(a, b) {
-    var x = b[0] - a[0];
-    var y = b[1] - a[1];
-    var z = b[2] - a[2];
-    var w = b[3] - a[3];
-    return Math.hypot(x, y, z, w);
-  }
-  function squaredDistance2(a, b) {
-    var x = b[0] - a[0];
-    var y = b[1] - a[1];
-    var z = b[2] - a[2];
-    var w = b[3] - a[3];
-    return x * x + y * y + z * z + w * w;
-  }
-  function length2(a) {
-    var x = a[0];
-    var y = a[1];
-    var z = a[2];
-    var w = a[3];
-    return Math.hypot(x, y, z, w);
-  }
-  function squaredLength2(a) {
-    var x = a[0];
-    var y = a[1];
-    var z = a[2];
-    var w = a[3];
-    return x * x + y * y + z * z + w * w;
-  }
-  function negate2(out, a) {
-    out[0] = -a[0];
-    out[1] = -a[1];
-    out[2] = -a[2];
-    out[3] = -a[3];
-    return out;
-  }
-  function inverse2(out, a) {
-    out[0] = 1 / a[0];
-    out[1] = 1 / a[1];
-    out[2] = 1 / a[2];
-    out[3] = 1 / a[3];
-    return out;
-  }
-  function normalize2(out, a) {
-    var x = a[0];
-    var y = a[1];
-    var z = a[2];
-    var w = a[3];
-    var len3 = x * x + y * y + z * z + w * w;
-    if (len3 > 0) {
-      len3 = 1 / Math.sqrt(len3);
-    }
-    out[0] = x * len3;
-    out[1] = y * len3;
-    out[2] = z * len3;
-    out[3] = w * len3;
-    return out;
-  }
-  function dot2(a, b) {
-    return a[0] * b[0] + a[1] * b[1] + a[2] * b[2] + a[3] * b[3];
-  }
-  function cross2(out, u, v, w) {
-    var A = v[0] * w[1] - v[1] * w[0], B = v[0] * w[2] - v[2] * w[0], C = v[0] * w[3] - v[3] * w[0], D = v[1] * w[2] - v[2] * w[1], E = v[1] * w[3] - v[3] * w[1], F = v[2] * w[3] - v[3] * w[2];
-    var G = u[0];
-    var H = u[1];
-    var I = u[2];
-    var J = u[3];
-    out[0] = H * F - I * E + J * D;
-    out[1] = -(G * F) + I * C - J * B;
-    out[2] = G * E - H * C + J * A;
-    out[3] = -(G * D) + H * B - I * A;
-    return out;
-  }
-  function lerp2(out, a, b, t) {
-    var ax = a[0];
-    var ay = a[1];
-    var az = a[2];
-    var aw = a[3];
-    out[0] = ax + t * (b[0] - ax);
-    out[1] = ay + t * (b[1] - ay);
-    out[2] = az + t * (b[2] - az);
-    out[3] = aw + t * (b[3] - aw);
-    return out;
-  }
-  function random2(out, scale4) {
-    scale4 = scale4 || 1;
-    var v1, v2, v3, v4;
-    var s1, s2;
-    do {
-      v1 = RANDOM() * 2 - 1;
-      v2 = RANDOM() * 2 - 1;
-      s1 = v1 * v1 + v2 * v2;
-    } while (s1 >= 1);
-    do {
-      v3 = RANDOM() * 2 - 1;
-      v4 = RANDOM() * 2 - 1;
-      s2 = v3 * v3 + v4 * v4;
-    } while (s2 >= 1);
-    var d = Math.sqrt((1 - s1) / s2);
-    out[0] = scale4 * v1;
-    out[1] = scale4 * v2;
-    out[2] = scale4 * v3 * d;
-    out[3] = scale4 * v4 * d;
-    return out;
-  }
-  function transformMat42(out, a, m) {
-    var x = a[0], y = a[1], z = a[2], w = a[3];
-    out[0] = m[0] * x + m[4] * y + m[8] * z + m[12] * w;
-    out[1] = m[1] * x + m[5] * y + m[9] * z + m[13] * w;
-    out[2] = m[2] * x + m[6] * y + m[10] * z + m[14] * w;
-    out[3] = m[3] * x + m[7] * y + m[11] * z + m[15] * w;
-    return out;
-  }
-  function transformQuat2(out, a, q) {
-    var x = a[0], y = a[1], z = a[2];
-    var qx = q[0], qy = q[1], qz = q[2], qw = q[3];
-    var ix = qw * x + qy * z - qz * y;
-    var iy = qw * y + qz * x - qx * z;
-    var iz = qw * z + qx * y - qy * x;
-    var iw = -qx * x - qy * y - qz * z;
-    out[0] = ix * qw + iw * -qx + iy * -qz - iz * -qy;
-    out[1] = iy * qw + iw * -qy + iz * -qx - ix * -qz;
-    out[2] = iz * qw + iw * -qz + ix * -qy - iy * -qx;
-    out[3] = a[3];
-    return out;
-  }
-  function zero2(out) {
-    out[0] = 0;
-    out[1] = 0;
-    out[2] = 0;
-    out[3] = 0;
-    return out;
-  }
-  function str3(a) {
-    return "vec4(" + a[0] + ", " + a[1] + ", " + a[2] + ", " + a[3] + ")";
-  }
-  function exactEquals3(a, b) {
-    return a[0] === b[0] && a[1] === b[1] && a[2] === b[2] && a[3] === b[3];
-  }
-  function equals3(a, b) {
-    var a0 = a[0], a1 = a[1], a2 = a[2], a3 = a[3];
-    var b0 = b[0], b1 = b[1], b2 = b[2], b3 = b[3];
-    return Math.abs(a0 - b0) <= EPSILON * Math.max(1, Math.abs(a0), Math.abs(b0)) && Math.abs(a1 - b1) <= EPSILON * Math.max(1, Math.abs(a1), Math.abs(b1)) && Math.abs(a2 - b2) <= EPSILON * Math.max(1, Math.abs(a2), Math.abs(b2)) && Math.abs(a3 - b3) <= EPSILON * Math.max(1, Math.abs(a3), Math.abs(b3));
-  }
-  var sub3 = subtract3;
-  var mul3 = multiply3;
-  var div2 = divide2;
-  var dist2 = distance2;
-  var sqrDist2 = squaredDistance2;
-  var len2 = length2;
-  var sqrLen2 = squaredLength2;
-  var forEach2 = function() {
-    var vec = create3();
-    return function(a, stride, offset, count, fn, arg) {
-      var i, l;
-      if (!stride) {
-        stride = 4;
-      }
-      if (!offset) {
-        offset = 0;
-      }
-      if (count) {
-        l = Math.min(count * stride + offset, a.length);
-      } else {
-        l = a.length;
-      }
-      for (i = offset; i < l; i += stride) {
-        vec[0] = a[i];
-        vec[1] = a[i + 1];
-        vec[2] = a[i + 2];
-        vec[3] = a[i + 3];
-        fn(vec, vec, arg);
-        a[i] = vec[0];
-        a[i + 1] = vec[1];
-        a[i + 2] = vec[2];
-        a[i + 3] = vec[3];
       }
       return a;
     };
@@ -12855,7 +12513,7 @@
      * @param {number} min
      * @returns {this}
      */
-    min(min3) {
+    min(min2) {
       return this;
     }
     /**
@@ -12863,7 +12521,7 @@
      * @param {number} max
      * @returns {this}
      */
-    max(max3) {
+    max(max2) {
       return this;
     }
     /**
@@ -13127,11 +12785,11 @@
     }
   };
   var NumberController = class extends Controller {
-    constructor(parent, object, property, min3, max3, step) {
+    constructor(parent, object, property, min2, max2, step) {
       super(parent, object, property, "number");
       this._initInput();
-      this.min(min3);
-      this.max(max3);
+      this.min(min2);
+      this.max(max2);
       const stepExplicit = step !== void 0;
       this.step(stepExplicit ? step : this._getImplicitStep(), stepExplicit);
       this.updateDisplay();
@@ -13141,13 +12799,13 @@
       this.updateDisplay();
       return this;
     }
-    min(min3) {
-      this._min = min3;
+    min(min2) {
+      this._min = min2;
       this._onUpdateMinMax();
       return this;
     }
-    max(max3) {
-      this._max = max3;
+    max(max2) {
+      this._max = max2;
       this._onUpdateMinMax();
       return this;
     }
@@ -14047,14 +13705,14 @@
      * @param {number} [step] Step value for number controllers.
      * @returns {Controller}
      */
-    add(object, property, $1, max3, step) {
+    add(object, property, $1, max2, step) {
       if (Object($1) === $1) {
         return new OptionController(this, object, property, $1);
       }
       const initialValue = object[property];
       switch (typeof initialValue) {
         case "number":
-          return new NumberController(this, object, property, $1, max3, step);
+          return new NumberController(this, object, property, $1, max2, step);
         case "boolean":
           return new BooleanController(this, object, property);
         case "string":
@@ -14102,10 +13760,10 @@
      * @returns {GUI}
      */
     addFolder(title) {
-      const folder2 = new _GUI({ parent: this, title });
+      const folder = new _GUI({ parent: this, title });
       if (this.root._closeFolders)
-        folder2.close();
-      return folder2;
+        folder.close();
+      return folder;
     }
     /**
      * Recalls values that were saved with `gui.save()`.
@@ -14391,7 +14049,7 @@
   var item_vert_default = "precision mediump float;\n\nattribute vec3 position, normal;\nuniform mat4 model, view, projection;\nvarying vec3 fragNormal, fragPosition, fragView;\n\nvoid main() {\n    fragNormal = normal;\n    fragPosition = position;\n    gl_Position = projection * view * model * vec4(position, 1);\n}\n";
 
   // src/renderables/item/item.frag.glsl
-  var item_frag_default = "precision mediump float;\n\nstruct DirectionalLight {\n    vec3 direction;\n    vec3 ambient;\n    vec3 diffuse;\n    vec3 specular;\n};\n\nstruct Material {\n    float shininess;\n    vec4 color;\n    vec3 specular;\n    vec3 diffuse;\n};\n\nvec3 calcDirectionalLight(DirectionalLight light, Material material, vec3 normal, vec3 viewDir)\n{\n    vec3 lightDir = normalize(-light.direction);\n\n    // diffuse shading\n    float diff = max(dot(normal, lightDir), 0.0);\n\n    // specular shading\n    vec3 reflectDir = reflect(-lightDir, normal);\n    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);\n\n    // combine results\n    vec3 ambient = light.ambient * material.diffuse * vec3(material.color);\n    vec3 diffuse = light.diffuse * diff * material.diffuse * vec3(material.color);\n    vec3 specular = light.specular * spec * material.specular * vec3(material.color);\n    return (ambient + diffuse + specular);\n}\n\n\n\nvarying vec3 fragNormal, fragPosition;\nuniform vec3 eye;\nuniform vec3 skyColour;\nuniform DirectionalLight directionalLight;\nuniform Material material;\n\nvoid main() {\n    vec3 norm = normalize(fragNormal);\n    vec3 viewDirection = normalize(eye - fragPosition);\n    vec3 light = calcDirectionalLight(directionalLight, material, norm, viewDirection);\n\n    // Calculate the sky colour contribution\n    vec3 skyColourContribution = skyColour * pow(max(dot(norm, viewDirection), 0.0), 2.0);\n\n    // Mix the sky colour contribution with the directional light contribution\n    vec3 finalColour = mix(skyColourContribution, light, 0.7);\n\n    gl_FragColor = vec4(finalColour, 1.0);\n\n}\n";
+  var item_frag_default = "precision mediump float;\n\nstruct DirectionalLight {\n    vec3 direction;\n    vec3 ambient;\n    vec3 diffuse;\n    vec3 specular;\n};\n\nstruct Material {\n    float shininess;\n    vec3 color;\n    vec3 specular;\n    vec3 diffuse;\n};\n\nvec3 calcDirectionalLight(DirectionalLight light, Material material, vec3 normal, vec3 viewDir)\n{\n    vec3 lightDir = normalize(-light.direction);\n\n    // diffuse shading\n    float diff = max(dot(normal, lightDir), 0.0);\n\n    // specular shading\n    vec3 reflectDir = reflect(-lightDir, normal);\n    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);\n\n    // combine results\n    vec3 ambient = light.ambient * material.diffuse * material.color;\n    vec3 diffuse = light.diffuse * diff * material.diffuse * material.color;\n    vec3 specular = light.specular * spec * material.specular * material.color;\n    return (ambient + diffuse + specular);\n}\n\n\n\nvarying vec3 fragNormal, fragPosition;\nuniform vec3 eye;\nuniform vec3 skyColour;\nuniform DirectionalLight directionalLight;\nuniform Material material;\n\nvoid main() {\n    vec3 norm = normalize(fragNormal);\n    vec3 viewDirection = normalize(eye - fragPosition);\n    vec3 light = calcDirectionalLight(directionalLight, material, norm, viewDirection);\n\n    // Calculate the sky colour contribution\n    vec3 skyColourContribution = skyColour * pow(max(dot(norm, viewDirection), 0.0), 2.0);\n\n    // Mix the sky colour contribution with the directional light contribution\n    vec3 finalColour = mix(skyColourContribution, light, 0.7);\n\n    gl_FragColor = vec4(finalColour, 1);\n\n}\n";
 
   // src/renderables/item/item.ts
   var createMesh = ({ regl: regl2, mesh }) => regl2({
@@ -14404,13 +14062,13 @@
     elements: mesh.cells,
     uniforms: {
       "directionalLight.direction": vec3_exports.fromValues(-0.2, -1, -0.3),
-      "directionalLight.ambient": vec3_exports.fromValues(0.4, 0.4, 0.4),
-      "directionalLight.diffuse": vec3_exports.fromValues(0.4, 0.4, 0.4),
-      "directionalLight.specular": vec3_exports.fromValues(0.1, 0.1, 0.1),
-      "material.color": vec4_exports.fromValues(1, 1, 1, 1),
-      "material.diffuse": vec3_exports.fromValues(0.4, 0.4, 0.4),
-      "material.specular": vec3_exports.fromValues(0.1, 0.1, 0.1),
-      "material.shininess": 30,
+      "directionalLight.ambient": regl2.prop("lightAmbient"),
+      "directionalLight.diffuse": regl2.prop("lightDiffuse"),
+      "directionalLight.specular": regl2.prop("lightSpecular"),
+      "material.color": regl2.prop("colour"),
+      "material.diffuse": regl2.prop("diffuse"),
+      "material.specular": regl2.prop("specular"),
+      "material.shininess": regl2.prop("shininess"),
       model: mat4_exports.identity(mat4_exports.create()),
       eye: regl2.context("eye"),
       view: regl2.context("view"),
@@ -14424,10 +14082,26 @@
   var regl = (0, import_regl.default)();
   var gui = new lil_gui_esm_default();
   var vars = {
-    skyColour: [1, 1, 1]
+    skyColour: [1, 1, 1],
+    colour: [1, 1, 1],
+    diffuse: [0.4, 0.4, 0.4],
+    specular: [0.1, 0.1, 0.1],
+    shininess: 30,
+    lightAmbient: [0.4, 0.4, 0.4],
+    lightDiffuse: [0.4, 0.4, 0.4],
+    lightSpecular: [0.1, 0.1, 0.1]
   };
-  var folder = gui.addFolder("skyColour");
-  folder.addColor(vars, "skyColour");
+  var skySettings = gui.addFolder("Sky");
+  skySettings.addColor(vars, "skyColour");
+  var cubeSettings = gui.addFolder("Cube");
+  cubeSettings.addColor(vars, "colour");
+  cubeSettings.addColor(vars, "diffuse");
+  cubeSettings.addColor(vars, "specular");
+  cubeSettings.add(vars, "shininess", 1, 128, 1);
+  var lightSettings = gui.addFolder("Light Settings");
+  lightSettings.addColor(vars, "lightAmbient");
+  lightSettings.addColor(vars, "lightDiffuse");
+  lightSettings.addColor(vars, "lightSpecular");
   var camera = (0, import_regl_camera.default)(regl, {
     center: vec3_exports.fromValues(0, 0, 0)
   });

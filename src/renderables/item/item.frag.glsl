@@ -21,6 +21,6 @@ void main() {
     // Mix the sky colour contribution with the directional light contribution
     vec3 finalColour = mix(skyColourContribution, light, 0.7);
 
-    gl_FragColor = vec4(finalColour, 1.0);
+    gl_FragColor = vec4(finalColour, 1);
 
 }
