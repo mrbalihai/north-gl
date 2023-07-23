@@ -19,6 +19,7 @@ interface Uniforms {
   'material.diffuse': vec3;
   'material.specular': vec3;
   'material.shininess': number;
+  'scale': number;
 }
 
 interface Attributes {
@@ -35,6 +36,7 @@ interface Props {
   lightAmbient: vec3;
   lightDiffuse: vec3;
   lightSpecular: vec3;
+  scale: number;
 }
 
 type Context = Uniforms & DefaultContext;
@@ -58,10 +60,11 @@ export const createMesh = ({ regl, mesh }: Args) =>
       'material.diffuse': regl.prop<Props, 'diffuse'>('diffuse'),
       'material.specular': regl.prop<Props, 'specular'>('specular'),
       'material.shininess': regl.prop<Props, 'shininess'>('shininess'),
+      scale: regl.prop<Props, 'scale'>('scale'),
       model: mat4.identity(mat4.create()),
       eye: regl.context<Context, 'eye'>('eye'),
       view: regl.context<Context, 'view'>('view'),
-      skyColour: regl.prop<Context, 'skyColour'>('skyColour'),
+      skyColour: regl.prop<Props, 'skyColour'>('skyColour'),
       projection: regl.context<Context, 'projection'>('projection'),
     },
   });

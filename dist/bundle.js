@@ -14046,7 +14046,7 @@
   var import_angle_normals = __toESM(require_angle_normals());
 
   // src/renderables/item/item.vert.glsl
-  var item_vert_default = "precision mediump float;\n\nattribute vec3 position, normal;\nuniform mat4 model, view, projection;\nvarying vec3 fragNormal, fragPosition, fragView;\n\nvoid main() {\n    fragNormal = normal;\n    fragPosition = position;\n    gl_Position = projection * view * model * vec4(position, 1);\n}\n";
+  var item_vert_default = "precision mediump float;\n\nattribute vec3 position, normal;\nuniform mat4 model, view, projection;\nuniform float scale;\nvarying vec3 fragNormal, fragPosition, fragView;\n\nvoid main() {\n    fragNormal = normal;\n    fragPosition = position * scale;\n    gl_Position = projection * view * model * vec4(fragPosition, 1);\n}\n";
 
   // src/renderables/item/item.frag.glsl
   var item_frag_default = "precision mediump float;\n\nstruct DirectionalLight {\n    vec3 direction;\n    vec3 ambient;\n    vec3 diffuse;\n    vec3 specular;\n};\n\nstruct Material {\n    float shininess;\n    vec3 color;\n    vec3 specular;\n    vec3 diffuse;\n};\n\nvec3 calcDirectionalLight(DirectionalLight light, Material material, vec3 normal, vec3 viewDir)\n{\n    vec3 lightDir = normalize(-light.direction);\n\n    // diffuse shading\n    float diff = max(dot(normal, lightDir), 0.0);\n\n    // specular shading\n    vec3 reflectDir = reflect(-lightDir, normal);\n    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);\n\n    // combine results\n    vec3 ambient = light.ambient * material.diffuse * material.color;\n    vec3 diffuse = light.diffuse * diff * material.diffuse * material.color;\n    vec3 specular = light.specular * spec * material.specular * material.color;\n    return (ambient + diffuse + specular);\n}\n\n\n\nvarying vec3 fragNormal, fragPosition;\nuniform vec3 eye;\nuniform vec3 skyColour;\nuniform DirectionalLight directionalLight;\nuniform Material material;\n\nvoid main() {\n    vec3 norm = normalize(fragNormal);\n    vec3 viewDirection = normalize(eye - fragPosition);\n    vec3 light = calcDirectionalLight(directionalLight, material, norm, viewDirection);\n\n    // Calculate the sky colour contribution\n    vec3 skyColourContribution = skyColour * pow(max(dot(norm, viewDirection), 0.0), 2.0);\n\n    // Mix the sky colour contribution with the directional light contribution\n    vec3 finalColour = mix(skyColourContribution, light, 0.7);\n\n    gl_FragColor = vec4(finalColour, 1);\n\n}\n";
@@ -14069,6 +14069,7 @@
       "material.diffuse": regl2.prop("diffuse"),
       "material.specular": regl2.prop("specular"),
       "material.shininess": regl2.prop("shininess"),
+      scale: regl2.prop("scale"),
       model: mat4_exports.identity(mat4_exports.create()),
       eye: regl2.context("eye"),
       view: regl2.context("view"),
@@ -14083,21 +14084,23 @@
   var gui = new lil_gui_esm_default();
   var vars = {
     skyColour: [1, 1, 1],
-    colour: [1, 1, 1],
-    diffuse: [0.4, 0.4, 0.4],
-    specular: [0.1, 0.1, 0.1],
-    shininess: 30,
-    lightAmbient: [0.4, 0.4, 0.4],
-    lightDiffuse: [0.4, 0.4, 0.4],
-    lightSpecular: [0.1, 0.1, 0.1]
+    scale: 19,
+    colour: [1, 0.86, 0],
+    diffuse: [0.65, 0.6, 0],
+    specular: [1, 1, 1],
+    shininess: 128,
+    lightAmbient: [1, 1, 1],
+    lightDiffuse: [1, 1, 1],
+    lightSpecular: [1, 1, 1]
   };
   var skySettings = gui.addFolder("Sky");
   skySettings.addColor(vars, "skyColour");
-  var cubeSettings = gui.addFolder("Cube");
-  cubeSettings.addColor(vars, "colour");
-  cubeSettings.addColor(vars, "diffuse");
-  cubeSettings.addColor(vars, "specular");
-  cubeSettings.add(vars, "shininess", 1, 128, 1);
+  var objectSettings = gui.addFolder("Object");
+  objectSettings.add(vars, "scale", 0, 100, 0.5);
+  objectSettings.addColor(vars, "colour");
+  objectSettings.addColor(vars, "diffuse");
+  objectSettings.addColor(vars, "specular");
+  objectSettings.add(vars, "shininess", 1, 128, 1);
   var lightSettings = gui.addFolder("Light Settings");
   lightSettings.addColor(vars, "lightAmbient");
   lightSettings.addColor(vars, "lightDiffuse");
@@ -14106,7 +14109,7 @@
     center: vec3_exports.fromValues(0, 0, 0)
   });
   async function addCube() {
-    const response = await fetch("assets/cube.obj");
+    const response = await fetch("assets/bunny.obj");
     const mesh = (0, import_parse_wavefront_obj.default)(await response.text());
     drawObjects.push(createMesh({ regl, mesh }));
   }
