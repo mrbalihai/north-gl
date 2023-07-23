@@ -12,6 +12,7 @@ const gui = new GUI();
 
 type Vars = {
   skyColour: vec3
+  scale: number;
   colour: vec3;
   diffuse: vec3;
   specular: vec3;
@@ -23,33 +24,35 @@ type Vars = {
 
 const vars: Vars = {
   skyColour: [1, 1, 1],
-  colour: [1, 1, 1],
-  diffuse: [0.4, 0.4, 0.4],
-  specular: [0.1, 0.1, 0.1],
-  shininess: 30,
-  lightAmbient: [0.4, 0.4, 0.4],
-  lightDiffuse: [0.4, 0.4, 0.4],
-  lightSpecular: [0.1, 0.1, 0.1],
+  scale: 19,
+  colour: [1, 0.86, 0],
+  diffuse: [0.65, 0.60, 0],
+  specular: [1, 1, 1],
+  shininess: 128,
+  lightAmbient: [1, 1, 1],
+  lightDiffuse: [1, 1, 1],
+  lightSpecular: [1, 1, 1],
 };
 
-const skySettings = gui.addFolder('Sky')
+const skySettings = gui.addFolder('Sky');
 skySettings.addColor(vars, 'skyColour');
-const cubeSettings = gui.addFolder('Cube')
-cubeSettings.addColor(vars, 'colour')
-cubeSettings.addColor(vars, 'diffuse')
-cubeSettings.addColor(vars, 'specular')
-cubeSettings.add(vars, 'shininess', 1, 128, 1);
-const lightSettings = gui.addFolder('Light Settings')
-lightSettings.addColor(vars, 'lightAmbient')
-lightSettings.addColor(vars, 'lightDiffuse')
-lightSettings.addColor(vars, 'lightSpecular')
+const objectSettings = gui.addFolder('Object');
+objectSettings.add(vars, 'scale', 0, 100, 0.5);
+objectSettings.addColor(vars, 'colour');
+objectSettings.addColor(vars, 'diffuse');
+objectSettings.addColor(vars, 'specular');
+objectSettings.add(vars, 'shininess', 1, 128, 1);
+const lightSettings = gui.addFolder('Light Settings');
+lightSettings.addColor(vars, 'lightAmbient');
+lightSettings.addColor(vars, 'lightDiffuse');
+lightSettings.addColor(vars, 'lightSpecular');
 
 const camera = createCamera(regl, {
   center: vec3.fromValues(0, 0, 0)
 });
 
 async function addCube () {
-  const response = await fetch('assets/cube.obj');
+  const response = await fetch('assets/bunny.obj');
   const mesh = parseObj(await response.text());
   drawObjects.push(createMesh({ regl, mesh }));
 };
