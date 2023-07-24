@@ -5,12 +5,12 @@ import { vec3 } from 'gl-matrix';
 import GUI from 'lil-gui';
 import { createMesh } from './renderables/item/item';
 
-const drawObjects: Array<DrawCommand> = new Array<DrawCommand>();
+const drawObjects: DrawCommand[] = [];
 
 const regl = REGL();
 const gui = new GUI();
 
-type Vars = {
+interface Vars {
   skyColour: vec3
   scale: number;
   colour: vec3;
@@ -20,17 +20,17 @@ type Vars = {
   lightAmbient: vec3;
   lightDiffuse: vec3;
   lightSpecular: vec3;
-};
+}
 
 const vars: Vars = {
-  skyColour: [1, 1, 1],
-  scale: 19,
-  colour: [1, 0.86, 0],
-  diffuse: [0.65, 0.60, 0],
-  specular: [1, 1, 1],
-  shininess: 128,
-  lightAmbient: [1, 1, 1],
-  lightDiffuse: [1, 1, 1],
+  skyColour:     [1, 1, 1],
+  scale:         19,
+  colour:        [1, 0.86, 0],
+  diffuse:       [0.65, 0.60, 0],
+  specular:      [1, 1, 1],
+  shininess:     128,
+  lightAmbient:  [1, 1, 1],
+  lightDiffuse:  [1, 1, 1],
   lightSpecular: [1, 1, 1],
 };
 
@@ -48,21 +48,21 @@ lightSettings.addColor(vars, 'lightDiffuse');
 lightSettings.addColor(vars, 'lightSpecular');
 
 const camera = createCamera(regl, {
-  center: vec3.fromValues(0, 0, 0)
+  center: vec3.fromValues(0, 0, 0),
 });
 
-async function addCube () {
+async function addObject() {
   const response = await fetch('assets/bunny.obj');
   const mesh = parseObj(await response.text());
   drawObjects.push(createMesh({ regl, mesh }));
-};
+}
 
 regl.frame(() =>
   camera(() => {
     regl.clear({ color:  [ ...vars.skyColour, 1] as Vec4 });
     drawObjects.forEach((a) => a({ ...vars }));
-  })
+  }),
 );
 
-addCube();
+addObject().catch((e) => console.log(e));
 

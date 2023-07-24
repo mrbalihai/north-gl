@@ -1,0 +1,30 @@
+env:
+  browser: true
+  es2021: true
+extends:
+  - eslint:recommended
+  - plugin:@typescript-eslint/recommended
+  - plugin:@typescript-eslint/recommended-type-checked
+  - plugin:@typescript-eslint/stylistic-type-checked
+  - plugin:functional/external-vanilla-recommended
+  - plugin:functional/recommended
+  - plugin:functional/stylistic
+parser: '@typescript-eslint/parser'
+plugins:
+  - '@typescript-eslint'
+  - functional
+root: true
+parserOptions:
+  ecmaVersion: 'latest'
+  sourceType: 'module'
+  project: true
+ignorePatterns:
+  - dist/**/*.*
+rules:
+  "@typescript-eslint/indent": [error, 2]
+  comma-dangle: ["error", "always-multiline"]
+  functional/no-expression-statements: off
+  functional/functional-parameters: off
+  functional/prefer-tacit: off
+  functional/prefer-immutable-types: off
+  functional/immutable-data: off

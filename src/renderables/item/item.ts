@@ -40,7 +40,7 @@ interface Props {
 }
 
 type Context = Uniforms & DefaultContext;
-type Args = { regl: Regl, mesh: Mesh };
+interface Args { regl: Regl, mesh: Mesh }
 
 export const createMesh = ({ regl, mesh }: Args) =>
   regl<Uniforms, Attributes>({

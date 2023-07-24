@@ -15,7 +15,7 @@ interface Uniforms {
 type Context = Uniforms & DefaultContext;
 
 export const createCamera = (regl: Regl, props: Props) =>
-  regl<Uniforms, {}, Props>({
+  regl<Uniforms, object, Props>({
     context: {
       projection: (context: DefaultContext) =>
         mat4.perspective(mat4.create(),
@@ -24,7 +24,7 @@ export const createCamera = (regl: Regl, props: Props) =>
           0.01, // Near
           1000.0), // Far
 
-      view: ({}) =>
+      view: () =>
         mat4.lookAt(mat4.create(),
           props.eye,
           props.target,
@@ -35,6 +35,6 @@ export const createCamera = (regl: Regl, props: Props) =>
       view: regl.context<Context, 'view'>('view'),
       invertedView: (context: Context): mat4 =>
         mat4.invert(mat4.create(), context.view),
-      projection: regl.context<Context, 'projection'>('projection')
-    }
+      projection: regl.context<Context, 'projection'>('projection'),
+    },
   });
